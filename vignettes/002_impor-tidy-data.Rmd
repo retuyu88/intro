@@ -72,7 +72,7 @@ Demi memahami konsep Tidy Data, kita akan menggunakan dataset yang tersedia di p
 library(tidyr)
 ```
 
-Dari dataset berikut ini, manakah yang termasuk Tidy Data? Dapatkah Anda menjelaskan alasan mengapa beberapa dataset berikut tidak *tidy*?
+Dari dataset berikut ini, manakah yang termasuk Tidy Data? Dapatkah Anda menjelaskan alasan mengapa beberapa dataset berikut tidak *tidy*? yang tidy adalah tabel 4
 
 ```{r}
 table1
@@ -81,5 +81,10 @@ table3
 table4a
 table4b
 table5
+skim(table1)
+dim(table1)
+identical(table2,table3)
+identical(table1, table2)
+identical(table4a, table5)
 ```
 
