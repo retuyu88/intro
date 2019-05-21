@@ -124,7 +124,7 @@ tb_all
 
 Dapatkah Anda membuat ringkasan apa saja hal apa saja yang dilakukan pada proses *data wrangling* diatas? (Petunjuk: `?nama_fungsi`)
 
-1. memperbaiki dataset who dengan melakukan gather pada kolom new-sp_m014 dan newrel_f65 dengan nama kolom baru yaitu case
+1. memperbaiki dataset who yang belum tidy dengan melakukan gather pada kolom new-sp_m014 dan newrel_f65 dengan nama kolom baru yaitu case
 2. menampilkan isi tabel dengan hanya menampilkan kolom year, cases, dan population 
 3. menampilkan data berdasarkan grup country dan year
 4. mengurangi data yang sama atau data yang memiliki value sama pada kolom case menjadi satu kolom saja
