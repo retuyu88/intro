@@ -26,29 +26,30 @@ knitr::opts_chunk$set(echo = TRUE)
 Anda akan menggunakan fungsi `spread` dari paket `tidyr` untuk mengubah memperbaiki dataset 'table2' (juga dari paket `tidyr`). Aktifkanlah paket `tidyr`, lihat dataset 'table2'. Apakah yang membuat dataset tersebut *non-tidy* data? Bukalah dokumentasi fungsi `spread` dengan menjalankan `?nama_fungsi` atau `help(nama_fungsi)`!
 
 ```{r}
-___(tidyr)
+library(tidyr)
 table2
 ```
 
 Dataset 'table2' dapat diperbaiki dengan menjalankan kode berikut:
 
 ```{r}
-table2_tidy <- spread(table2, key = "type", value = "count")
+table2_tidy <- spread(table2, key = "type", value = "count")#merubah value dari kolom type menjadi kolom baru (cases, population) kemudian menjadikan kolom count menjadi value dari kolom kolom baru tersebut
 ```
 
 Selanjutnya Anda juga akan memperbaiki dataset 'table4a'. Cetaklah dataset tersebut dan dapatkah Anda menyebutkan alasan mengapa dataset tersebut tidak *tidy* dan *tame*?
 
 ```{r}
-___ # cetak dataset table4a
+table4a# cetak dataset table4a
 ```
 
 Dataset 'table4a' dapat diperbaiki dengan menggunakan fungsi `gather` dari `tidyr`. Anda dapat mempelajari fungsi tersebut dengan menjalankan `?gather`.
 
 ```{r}
-gather(table4a, key = "year", value = "case", 2:3)
+gather(table4a, key = "year", value = "case", 2:3)#penggunaan 2:3 berarti kolom dengan index 2 sampai kolom dengan index 3 , namun jika hanya ingin memilih kolom tertentu , maka menggunakan perintan c(2,3) atau c(2,6) untuk kolom ke 2 dan nomer 6 saja
 
 table4a_tidy <- table4a %>% 
   gather(key = "year", value = "cases", 2:3) # menggunakan tidyverse syntax, pipe %>%
+table4a_tidy
 ```
 
 Silakan lakukan hal serupa pada dataset 'table4b' namun dengan menggunakan "population" sebagai isian argumen `value`. Tuliskan juga dengan menggunakan *tidyverse syntax* dan simpan obyek tersebut dengan nama 'table4b_tidy'!
@@ -56,14 +57,22 @@ Silakan lakukan hal serupa pada dataset 'table4b' namun dengan menggunakan "popu
 ```{r}
 table4b
 
-table4b_tidy <- ___
+table4b_tidy <- table4b %>%
+  gather(key = "year" , value = "population", 2:3, convert = TRUE)
+
+table4b_tidy
 ```
 
 Dataset 'table4a_tidy' dan 'table4b_tidy' tersebut dapat digabungkan menjadi satu dataset. Hal tersebut dapat dilakukan dengan menggunakan fungsi `left_join` dari paket `dplyr` seperti contoh berikut:
 
 ```{r}
-___ # mengaktifkan paket dplyr
+library(dplyr)# mengaktifkan paket dplyr
 mydata <- left_join(table4a_tidy, table4b_tidy)
+mydata <- mydata %>%
+  arrange(country)
+mydata
+
+identical(table1,mydata)
 ```
 
 
@@ -72,8 +81,10 @@ mydata <- left_join(table4a_tidy, table4b_tidy)
 Dataset mydata tersebut merupakan subset dataset Tubercolusis yang diolah dari data 'who' dan 'population' (dari paket `tidyr`). Lihatlah ringkasan kedua tersebut dengan menggunakan `glimpse`!
 
 ```{r}
-___(who)
-___(population)
+glimpse(who)
+glimpse(population)
+population
+who
 ```
 
 Sekarang kita akan membuat versi utuh dari dataset 'mydata' dengan menggunakan data seluruh negara pada dataset 'who' sebagai berikut:
@@ -88,7 +99,14 @@ tb5 <- ungroup(tb4)
 tb6 <- left_join(tb5, population)
 tb7 <- filter(tb6, !is.na(population))
 tb8 <- mutate(tb7, proportion = 100*cases/population)
-
+tb1
+tb2
+tb3
+tb4
+tb5
+tb6
+tb7
+tb8
 # Syntax menggunakan pipe %>%
 
 tb_all <- 
@@ -101,22 +119,23 @@ tb_all <-
   left_join(population) %>% 
   filter(!is.na(population)) %>% 
   mutate(proportion = 100*cases/population)
+tb_all
 ```
 
 Dapatkah Anda membuat ringkasan apa saja hal apa saja yang dilakukan pada proses *data wrangling* diatas? (Petunjuk: `?nama_fungsi`)
 
-1. ...
-2. ...
-3. ...
-4. ...
-5. ...
-6. ...
-7. ...
-8. ...
+1. memperbaiki dataset who dengan melakukan gather pada kolom new-sp_m014 dan newrel_f65 dengan nama kolom baru yaitu case
+2. menampilkan isi tabel dengan hanya menampilkan kolom year, cases, dan population 
+3. menampilkan data berdasarkan grup country dan year
+4. mengurangi data yang sama atau data yang memiliki value sama pada kolom case menjadi satu kolom saja
+5. menghilangkan perintah group_by pada tabel
+6. menggabungkan 
+7. menampilkan baris yang tidak memiliki value NA pada kolom population
+8. menghitung kolom baru dengan nama proportion yang mana value dari kolom tersebut didapatkan dari 100*cases/population
 
 Cek apakah dataset 'tb8' sama dengan dataset 'tb_all'! Menurut Anda, cara penulisan *syntax* manakah yang lebih mudah digunakan dan dipahami?
 
 ```{r}
-___(tb8, tb_all)
+identical(tb8, tb_all)
 ```
 
